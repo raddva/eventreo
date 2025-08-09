@@ -2,10 +2,10 @@
 
 import { HeroUIProvider } from '@heroui/react'
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({ children }: { children: React.ReactNode }) {
     return (
         <HeroUIProvider>
             {children}
         </HeroUIProvider>
     )
-}
+} 4
