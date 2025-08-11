@@ -5,7 +5,7 @@ interface PropTypes {
 }
 
 const PageHead = (props: PropTypes) => {
-    const { title = "Eventre" } = props;
+    const { title = "Eventreo" } = props;
     return (
         <Head>
             <meta charSet="UTF-8" />

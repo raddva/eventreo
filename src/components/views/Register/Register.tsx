@@ -6,9 +6,13 @@ import React from "react";
 import useRegister from "./useRegister";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Button } from "@heroui/button";
+import { Controller } from "react-hook-form";
+import { Spinner } from "@heroui/spinner";
+import { cn } from "@/utils/cn";
 
 const Register = () => {
-    const { visiblePassword, handleVisiblePassword } = useRegister();
+    const { visiblePassword, handleVisiblePassword, control, errors, handleRegister, handleSubmit, isPendingRegister } = useRegister();
+
     return (
         <div className="flex w-full flex-col lg:flex-row items-center justify-center gap-10 lg:gap-20">
             <div className="flex w-full lg:w-1/3 flex-col items-center justify-center gap-10">
@@ -30,44 +34,61 @@ const Register = () => {
                 <CardBody className="p-8">
                     <h2 className="text-xl font-bold text-primary-400">Create Account</h2>
                     <p className="mb-4 text-small">Already have any Account?&nbsp;
-                        <Link href="/login" className="font-semibold text-primary-300">Login</Link>
+                        <Link href="/auth/login" className="font-semibold text-primary-300">Login</Link>
                     </p>
-                    <form action="" className="flex w-80 flex-col gap-4">
-                        <Input type="text" label="Fullname" variant="bordered" autoComplete="off" />
-                        <Input type="text" label="Username" variant="bordered" autoComplete="off" />
-                        <Input type="email" label="E-mail" variant="bordered" autoComplete="off" />
-                        <Input type={visiblePassword.password ? 'text' : 'password'} label="Password" variant="bordered" autoComplete="off"
-                            endContent={
-                                <button
-                                    aria-label="toggle password visibility"
-                                    className="focus:outline-none outline-transparent"
-                                    type="button"
-                                    onClick={() => handleVisiblePassword("password")}
-                                >
-                                    {
-                                        visiblePassword.password ?
-                                            (<FaRegEye className="text-xl text-default-400 pointer-events-none" />) :
-                                            (<FaRegEyeSlash className="text-xl text-default-400 pointer-events-none" />)
-                                    }
-                                </button>
-                            } />
-                        <Input type={visiblePassword.passwordConfirmation ? 'text' : 'password'} label="Password Confirmation" variant="bordered" autoComplete="off"
-                            endContent={
-                                <button
-                                    aria-label="toggle password visibility"
-                                    className="focus:outline-none outline-transparent"
-                                    type="button"
-                                    onClick={() => handleVisiblePassword("passwordConfirmation")}
-                                >
-                                    {
-                                        visiblePassword.passwordConfirmation ?
-                                            (<FaRegEye className="text-xl text-default-400 pointer-events-none" />) :
-                                            (<FaRegEyeSlash className="text-xl text-default-400 pointer-events-none" />)
-                                    }
-                                </button>
-                            } />
+                    {errors.root && <p className="mb-2 font-medium text-danger"> {errors?.root?.message}</p>}
+                    <form className={cn("flex w-80 flex-col", Object.keys(errors).length > 0 ? "gap-2" : "gap-4")} onSubmit={handleSubmit(handleRegister)}>
+                        <Controller name="fullName" control={control} render={({ field }) => (
+                            <Input {...field} type="text" label="Fullname" variant="bordered" autoComplete="off" isInvalid={errors.fullName !== undefined} errorMessage={errors.fullName?.message} />
+                        )} />
+                        <Controller name="username" control={control} render={({ field }) => (
+                            <Input {...field} type="text" label="Username" variant="bordered" autoComplete="off" isInvalid={errors.username !== undefined} errorMessage={errors.username?.message} />
+                        )} />
+                        <Controller name="email" control={control} render={({ field }) => (
+                            <Input {...field} type="email" label="E-mail" variant="bordered" autoComplete="off" isInvalid={errors.email !== undefined} errorMessage={errors.email?.message} />
+                        )} />
+                        <Controller name="password" control={control} render={({ field }) => (
+                            <Input {...field} type={visiblePassword.password ? 'text' : 'password'} label="Password" variant="bordered" autoComplete="off"
+                                endContent={
+                                    <button
+                                        aria-label="toggle password visibility"
+                                        className="focus:outline-none outline-transparent"
+                                        type="button"
+                                        onClick={() => handleVisiblePassword("password")}
+                                    >
+                                        {
+                                            visiblePassword.password ?
+                                                (<FaRegEye className="text-xl text-default-400 pointer-events-none" />) :
+                                                (<FaRegEyeSlash className="text-xl text-default-400 pointer-events-none" />)
+                                        }
+                                    </button>
+                                }
+                                isInvalid={errors.password !== undefined}
+                                errorMessage={errors.password?.message}
+                            />
+                        )} />
+                        <Controller name="confirmPassword" control={control} render={({ field }) => (
+                            <Input {...field} type={visiblePassword.passwordConfirmation ? 'text' : 'password'} label="Password Confirmation" variant="bordered" autoComplete="off"
+                                endContent={
+                                    <button
+                                        aria-label="toggle password visibility"
+                                        className="focus:outline-none outline-transparent"
+                                        type="button"
+                                        onClick={() => handleVisiblePassword("passwordConfirmation")}
+                                    >
+                                        {
+                                            visiblePassword.passwordConfirmation ?
+                                                (<FaRegEye className="text-xl text-default-400 pointer-events-none" />) :
+                                                (<FaRegEyeSlash className="text-xl text-default-400 pointer-events-none" />)
+                                        }
+                                    </button>
+                                }
+                                isInvalid={errors.confirmPassword !== undefined}
+                                errorMessage={errors.confirmPassword?.message}
+                            />
+                        )} />
                         <Button color="primary" size="lg" type="submit">
-                            Register
+                            {isPendingRegister ? <Spinner color="white" variant="wave" /> : "Register"}
                         </Button>
                     </form>
                 </CardBody>
