@@ -32,8 +32,8 @@ const Register = () => {
             </div>
             <Card>
                 <CardBody className="p-8">
-                    <h2 className="text-xl font-bold text-primary-400">Create Account</h2>
-                    <p className="mb-4 text-small">Already have any Account?&nbsp;
+                    <h2 className="text-2xl font-bold text-primary-400">Create Account</h2>
+                    <p className="mb-4 mt-2 text-small">Already have any Account?&nbsp;
                         <Link href="/auth/login" className="font-semibold text-primary-300">Login</Link>
                     </p>
                     {errors.root && <p className="mb-2 font-medium text-danger"> {errors?.root?.message}</p>}
