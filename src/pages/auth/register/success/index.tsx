@@ -1,9 +1,10 @@
 import AuthLayout from "@/components/layouts/AuthLayout";
+import RegisterSuccess from "@/components/views/RegisterSuccess";
 
 const SuccessRegisterPage = () => {
     return (
         <AuthLayout title="Eventreo | Registration Success">
-            <h1>Register Success</h1>
+            <RegisterSuccess />
         </AuthLayout >
     );
 }
