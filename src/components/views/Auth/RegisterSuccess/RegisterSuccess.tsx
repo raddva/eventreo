@@ -14,7 +14,7 @@ const RegisterSuccess = () => {
                     height={270}
                 />
                 <Image
-                    src="/images/illustrations/success.svg"
+                    src="/images/illustrations/send-mail.svg"
                     alt="Auth"
                     className="w-1/3"
                     width={128}
@@ -23,7 +23,7 @@ const RegisterSuccess = () => {
             </div>
             <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-3xl font-bold text-primary-400">
-                    Success Creating Account!
+                    Mail Sent!
                 </h1>
                 <p className="text-xl font-bold text-default-500">
                     Please check your email to activate your account.
