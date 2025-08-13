@@ -33,7 +33,7 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
                 <Listbox items={sidebarItems} variant="solid" aria-label="Dashboard Menu">
                     {(item) => (
                         <ListboxItem key={item.key} className={cn("my-1 h-12 text-2xl", {
-                            "bg-primary-400 text-white": item.href == router.pathname
+                            "bg-primary-400 text-white": router.pathname.startsWith(item.href)
                         })}
                             startContent={item.icon}
                             textValue={item.label}

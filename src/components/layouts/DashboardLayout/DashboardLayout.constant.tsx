@@ -14,13 +14,13 @@ const SIDEBAR_MEMBER = [
         key: "transaction",
         label: "Transaction",
         href: "/member/transaction",
-        icon: <PiUserCircleGear />,
+        icon: <SlWallet />,
     },
     {
         key: "setting",
         label: "Setting",
         href: "/member/setting",
-        icon: <SlWallet />,
+        icon: <PiUserCircleGear />,
     }
 ];
 
