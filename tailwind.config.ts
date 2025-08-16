@@ -6,7 +6,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/components/(button|card|input|listbox|navbar|spinner|ripple|form|divider).js",
+    "./node_modules/@heroui/theme/dist/components/(button|card|input|listbox|navbar|spinner|table|ripple|form|divider|checkbox|spacer).js",
   ],
   theme: {
     extend: {

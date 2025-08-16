@@ -7,7 +7,7 @@ const SIDEBAR_MEMBER = [
     {
         key: "dashboard",
         label: "Dashboard",
-        href: "/member",
+        href: "/member/dashboard",
         icon: <HiViewGrid />,
     },
     {
@@ -28,7 +28,7 @@ const SIDEBAR_ADMIN = [
     {
         key: "dashboard",
         label: "Dashboard",
-        href: "/admin",
+        href: "/admin/dashboard",
         icon: <HiViewGrid />,
     },
     {
