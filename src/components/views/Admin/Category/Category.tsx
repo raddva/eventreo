@@ -2,13 +2,21 @@ import DataTable from "@/components/ui/DataTable";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Key, ReactNode, useCallback } from "react";
+import { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci"
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
-import { LIMIT_LISTS } from "@/constants/list.constants";
+import useCategory from "./useCategory";
 
 const Category = () => {
-    const { push } = useRouter();
+    const { push, isReady, query } = useRouter();
+    const { dataCategory, isLoadingCategory, setUrl, currentLimit, currentPage, currentSearch, refetchCategory, isRefetchingCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch } = useCategory();
+
+    useEffect(() => {
+        if (isReady) {
+            setUrl()
+        }
+    }, [isReady]);
+
     const renderCell = useCallback(
         (category: Record<string, unknown>, columnKey: Key) => {
             const cellValue = category[columnKey as keyof typeof category]
@@ -26,9 +34,26 @@ const Category = () => {
                                     <CiMenuKebab className="text-default-700" />
                                 </Button>
                             </DropdownTrigger>
-                            <DropdownMenu>
-                                <DropdownItem key="detail-category-button" onPress={() => push(`admin/category/${category._id}`)}>Detail Category</DropdownItem>
-                                <DropdownItem key="delete-category" className="text-danger-500">Delete Category</DropdownItem>
+                            <DropdownMenu
+                                aria-label="Category Actions"
+                                items={[
+                                    { key: "detail", label: "Detail Category" },
+                                    { key: "delete", label: "Delete Category" },
+                                ]}
+                            >
+                                {(item) => (
+                                    <DropdownItem
+                                        key={item.key}
+                                        className={item.key === "delete" ? "text-danger-500" : ""}
+                                        onPress={
+                                            item.key === "detail"
+                                                ? () => push(`admin/category/${category._id}`)
+                                                : undefined
+                                        }
+                                    >
+                                        {item.label}
+                                    </DropdownItem>
+                                )}
                             </DropdownMenu>
                         </Dropdown >
                     )
@@ -39,28 +64,24 @@ const Category = () => {
     );
     return (
         <section>
-            <DataTable
-                emptyContent="Category is Empty"
-                currentPage={1}
-                renderCell={renderCell}
-                columns={COLUMN_LIST_CATEGORY}
-                data={[
-                    {
-                        _id: "123",
-                        name: "Category",
-                        description: "Abcdbdv",
-                        icon: "/images/general/logo.svg"
-                    }
-                ]}
-                limit={LIMIT_LISTS[0].label}
-                onChangeLimit={() => { }}
-                onChangePage={() => { }}
-                onChangeSearch={() => { }}
-                onClearSearch={() => { }}
-                buttonTopContentLabel="Create Category"
-                onClickButtonTopContent={() => { }}
-                totalPages={2}
-            />
+            {Object.keys(query).length > 0 && (
+                <DataTable
+                    emptyContent="Category is Empty"
+                    currentPage={Number(currentPage)}
+                    renderCell={renderCell}
+                    columns={COLUMN_LIST_CATEGORY}
+                    data={dataCategory?.data}
+                    limit={String(currentLimit)}
+                    isLoading={isLoadingCategory || isRefetchingCategory}
+                    onChangeLimit={handleChangeLimit}
+                    onChangePage={handleChangePage}
+                    onChangeSearch={handleSearch}
+                    onClearSearch={handleClearSearch}
+                    buttonTopContentLabel="Create Category"
+                    onClickButtonTopContent={() => { }}
+                    totalPages={dataCategory?.pagination.totalPages}
+                />
+            )}
         </section>
     )
 }
