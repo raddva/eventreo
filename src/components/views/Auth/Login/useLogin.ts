@@ -7,6 +7,7 @@ import authServices from "@/services/auth.service";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import { addToast } from "@heroui/toast";
 
 const loginSchema = yup.object().shape({
   identifier: yup.string().required("Please input your Email or Username"),
@@ -42,10 +43,21 @@ const useLogin = () => {
 
   const { mutate: mutateLogin, isPending: isPendingLogin } = useMutation({
     mutationFn: loginService,
-    onError(err) {
-      setError("root", { message: err.message });
+    onError: (err) => {
+      addToast({
+        title: "Failed",
+        description: err.message,
+        color: "danger",
+        timeout: 3000,
+      });
     },
     onSuccess: () => {
+      addToast({
+        title: "Success!",
+        description: "Login Success",
+        color: "success",
+        timeout: 3000,
+      });
       router.push(callbackUrl);
       reset();
     },

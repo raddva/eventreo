@@ -6,6 +6,7 @@ import { IRegister } from "@/types/Auth";
 import authServices from "@/services/auth.service";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { addToast } from "@heroui/toast";
 
 const registerSchema = yup.object().shape({
   fullName: yup.string().required("Please input your Full Name"),
@@ -54,10 +55,21 @@ const useRegister = () => {
 
   const { mutate: mutateRegister, isPending: isPendingRegister } = useMutation({
     mutationFn: registerService,
-    onError(err) {
-      setError("root", { message: err.message });
+    onError: (err) => {
+      addToast({
+        title: "Failed",
+        description: err.message,
+        color: "danger",
+        timeout: 3000,
+      });
     },
     onSuccess: () => {
+      addToast({
+        title: "Success!",
+        description: "Registration Success",
+        color: "success",
+        timeout: 3000,
+      });
       router.push("/auth/register/success");
       reset();
     },
