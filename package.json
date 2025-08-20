@@ -13,6 +13,7 @@
     "@heroui/card": "^2.2.23",
     "@heroui/input": "^2.4.25",
     "@heroui/listbox": "^2.3.23",
+    "@heroui/modal": "^2.2.21",
     "@heroui/navbar": "^2.2.22",
     "@heroui/pagination": "^2.2.22",
     "@heroui/react": "^2.8.2",

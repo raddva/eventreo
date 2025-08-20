@@ -1,16 +1,18 @@
 import DataTable from "@/components/ui/DataTable";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDisclosure } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci"
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import useCategory from "./useCategory";
-import InputFile from "@/components/ui/InputFile";
+import AddCategoryModal from "./AddCategoryModal";
 
 const Category = () => {
     const { push, isReady, query } = useRouter();
     const { dataCategory, isLoadingCategory, setUrl, currentLimit, currentPage, currentSearch, refetchCategory, isRefetchingCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch } = useCategory();
+
+    const addCategoryModal = useDisclosure();
 
     useEffect(() => {
         if (isReady) {
@@ -79,12 +81,13 @@ const Category = () => {
                     onChangeSearch={handleSearch}
                     onClearSearch={handleClearSearch}
                     buttonTopContentLabel="Create Category"
-                    onClickButtonTopContent={() => { }}
+                    onClickButtonTopContent={addCategoryModal.onOpen}
                     totalPages={dataCategory?.pagination.totalPages}
                 />
             )}
+            <AddCategoryModal {...addCategoryModal} refetchCategory={refetchCategory} />
 
-            <InputFile name="Upload Icon" isDropable></InputFile>
+            {/* <InputFile name="Upload Icon" isDropable></InputFile> */}
         </section>
     )
 }
