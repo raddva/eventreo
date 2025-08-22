@@ -1,21 +1,39 @@
 import { cn } from "@/utils/cn";
+import { Button } from "@heroui/button";
+import { Spinner } from "@heroui/spinner";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useId, useRef, useState } from "react";
-import { CiSaveUp2 } from "react-icons/ci";
+import { CiSaveUp2, CiTrash } from "react-icons/ci";
 
 interface PropTypes {
     name: string;
     isDropable?: boolean;
     className?: string;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    // onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+    onUpload?: (files: FileList) => void;
+    onRemove?: () => void;
+    isUploading?: boolean;
+    isRemoving?: boolean;
     isInvalid?: boolean;
+    preview?: string;
     errorMessage?: string;
 }
 
 const InputFile = (props: PropTypes) => {
-    const [uploadedImage, setUploadedImage] = useState<File | null>(null);
     const [isDragOver, setIsDragOver] = useState(false);
-    const { name, isDropable = false, className, onChange, isInvalid, errorMessage } = props;
+    const {
+        name,
+        isDropable = false,
+        className,
+        // onChange,
+        isInvalid,
+        errorMessage,
+        onUpload,
+        onRemove,
+        isRemoving,
+        isUploading,
+        preview
+    } = props;
     const drop = useRef<HTMLLabelElement>(null);
     const dropZoneId = useId();
 
@@ -45,12 +63,16 @@ const InputFile = (props: PropTypes) => {
     const handleDrop = (e: DragEvent) => {
         if (isDropable) {
             e.preventDefault();
-            e.stopPropagation();
-            setIsDragOver(false);
+            // e.stopPropagation();
+            // setIsDragOver(false);
 
+            // const files = e.dataTransfer?.files;
+            // if (files && files.length > 0) {
+            //     setUploadedImage(files[0]);
+            // }
             const files = e.dataTransfer?.files;
-            if (files && files.length > 0) {
-                setUploadedImage(files[0]);
+            if (files && onUpload) {
+                onUpload(files);
             }
         }
     }
@@ -72,13 +94,10 @@ const InputFile = (props: PropTypes) => {
         }
     }, [isDropable]);
 
-    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleOnUpload = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.currentTarget.files;
-        if (files && files.length > 0) {
-            setUploadedImage(files[0]);
-            if (onChange) {
-                onChange(e);
-            }
+        if (files && onUpload) {
+            onUpload(files);
         }
     }
 
@@ -94,37 +113,54 @@ const InputFile = (props: PropTypes) => {
                     { "border-danger-500": isInvalid }
                 )
                 }>
-                {
-                    uploadedImage ? (
-                        <div className="flex flex-col items-center justify-center p-5" >
-                            <div className="mb-2 w-1/2">
-                                <Image fill
-                                    src={URL.createObjectURL(uploadedImage)}
-                                    alt="Image"
-                                    className="!relative"
-                                />
-                            </div>
-                            <p className="text-center text-sm font-semibold text-gray-500"> {uploadedImage.name} </p>
+                {preview && (
+                    <div className="relative flex flex-col items-center justify-center p-5" >
+                        <div className="mb-2 w-1/2">
+                            <Image fill
+                                src={preview}
+                                alt="Image"
+                                className="!relative"
+                            />
                         </div>
-                    ) : (
-                        <div className="flex flex-col items-center justify-center p-5">
-                            <CiSaveUp2 className="mb-2 h-10 w-10 text-gray-400" />
-                            {isDropable ? "Drag and drop or click here to upload file" : "Click here to upload file"}
-                        </div>
-                    )}
+                        <Button isIconOnly className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded bg-danger-100"
+                            onPress={onRemove}
+                            disabled={isRemoving}>
+                            {isRemoving ? (<Spinner size="sm" color="danger" variant="spinner" />) : (<CiTrash className="h-5 w-5 text-danger-500" />)}
+                        </Button>
+                    </div>
+                )}
+                {!preview && !isUploading && (
+                    <div className="flex flex-col items-center justify-center p-5">
+                        <CiSaveUp2 className="mb-2 h-10 w-10 text-gray-400" />
+                        {isDropable ? "Drag and drop or click here to upload file" : "Click here to upload file"}
+                    </div>
+                )}
+
+                {isUploading && (
+                    <div className="flex flex-col items-center justify-center p-5">
+                        <Spinner color="primary" />
+                    </div>
+                )}
                 <input
                     type="file"
                     name={name}
                     className="hidden"
                     accept="image/*"
                     id={`dropzone-file-${dropZoneId}`}
-                    onChange={handleOnChange}
+                    onChange={handleOnUpload}
+                    disabled={preview !== ""}
+                    onClick={
+                        (e) => {
+                            e.currentTarget.value = "";
+                            e.target.dispatchEvent(new Event("change", { bubbles: true }));
+                        }
+                    }
                 />
-            </label>
+            </label >
             {isInvalid && (
                 <p className="p-1 text-xs text-danger-500">{errorMessage}</p>
             )}
-        </div>
+        </div >
     )
 }
 

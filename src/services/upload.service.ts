@@ -11,7 +11,9 @@ const formDataHeader = {
 const uploadServices = {
   uploadFile: (payload: FormData) =>
     instance.post(`${endpoint.MEDIA}/upload-single`, payload, formDataHeader),
-  deleteFile: (payload: IFileUrl) =>
+  uploadFiles: (payload: FormData) =>
+    instance.post(`${endpoint.MEDIA}/upload-multiple`, payload, formDataHeader),
+  removeFile: (payload: IFileUrl) =>
     instance.delete(`${endpoint.MEDIA}/remove`, { data: payload }),
 };
 
