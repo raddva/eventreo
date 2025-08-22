@@ -7,12 +7,14 @@ import { CiMenuKebab } from "react-icons/ci"
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import useCategory from "./useCategory";
 import AddCategoryModal from "./AddCategoryModal";
+import RemoveCategoryModal from "./RemoveCategoryModal";
 
 const Category = () => {
     const { push, isReady, query } = useRouter();
-    const { dataCategory, isLoadingCategory, setUrl, currentLimit, currentPage, currentSearch, refetchCategory, isRefetchingCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch } = useCategory();
+    const { dataCategory, isLoadingCategory, setUrl, currentLimit, currentPage, currentSearch, refetchCategory, isRefetchingCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch, selectedId, setSelectedId } = useCategory();
 
     const addCategoryModal = useDisclosure();
+    const removeCategoryModal = useDisclosure();
 
     useEffect(() => {
         if (isReady) {
@@ -40,19 +42,15 @@ const Category = () => {
                             <DropdownMenu
                                 aria-label="Category Actions"
                                 items={[
-                                    { key: "detail", label: "Detail Category" },
-                                    { key: "delete", label: "Delete Category" },
+                                    { key: "detail", label: "Detail Category", onPress: () => { } },
+                                    { key: "delete", label: "Remove Category", onPress: () => { setSelectedId(`${category._id}`); removeCategoryModal.onOpen(); } },
                                 ]}
                             >
                                 {(item) => (
                                     <DropdownItem
                                         key={item.key}
                                         className={item.key === "delete" ? "text-danger-500" : ""}
-                                        onPress={
-                                            item.key === "detail"
-                                                ? () => push(`admin/category/${category._id}`)
-                                                : undefined
-                                        }
+                                        onPress={item.onPress}
                                     >
                                         {item.label}
                                     </DropdownItem>
@@ -86,6 +84,7 @@ const Category = () => {
                 />
             )}
             <AddCategoryModal {...addCategoryModal} refetchCategory={refetchCategory} />
+            <RemoveCategoryModal {...removeCategoryModal} refetchCategory={refetchCategory} selectedId={selectedId} setSelectedId={setSelectedId} />
 
             {/* <InputFile name="Upload Icon" isDropable></InputFile> */}
         </section>
