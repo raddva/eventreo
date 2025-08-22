@@ -51,7 +51,7 @@ const AddCategoryModal = (props: PropTypes) => {
                         Add Category
                     </ModalHeader>
                     <ModalBody>
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-2">
                             <p className="text-sm font-bold">Information</p>
                             <Controller
                                 control={control}
@@ -63,7 +63,8 @@ const AddCategoryModal = (props: PropTypes) => {
                                         variant="bordered"
                                         type="text"
                                         isInvalid={errors.name !== undefined}
-                                        errorMessage={errors.name?.message} />
+                                        errorMessage={errors.name?.message}
+                                        className="mb-2" />
                                 )} />
                             <Controller
                                 control={control}
@@ -74,7 +75,8 @@ const AddCategoryModal = (props: PropTypes) => {
                                         label="Description"
                                         variant="bordered"
                                         isInvalid={errors.description !== undefined}
-                                        errorMessage={errors.description?.message} />
+                                        errorMessage={errors.description?.message}
+                                        className="mb-2" />
                                 )} />
                             <p className="text-sm font-bold">Icon</p>
                             <Controller
