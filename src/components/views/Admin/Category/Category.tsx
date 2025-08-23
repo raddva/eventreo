@@ -10,6 +10,7 @@ import AddCategoryModal from "./AddCategoryModal";
 import RemoveCategoryModal from "./RemoveCategoryModal";
 
 const Category = () => {
+    const router = useRouter();
     const { push, isReady, query } = useRouter();
     const { dataCategory, isLoadingCategory, setUrl, currentLimit, currentPage, currentSearch, refetchCategory, isRefetchingCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch, selectedId, setSelectedId } = useCategory();
 
@@ -42,7 +43,7 @@ const Category = () => {
                             <DropdownMenu
                                 aria-label="Category Actions"
                                 items={[
-                                    { key: "detail", label: "Detail Category", onPress: () => { } },
+                                    { key: "detail", label: "Detail Category", onPress: () => { router.push(`category/${category._id}`) } },
                                     { key: "delete", label: "Remove Category", onPress: () => { setSelectedId(`${category._id}`); removeCategoryModal.onOpen(); } },
                                 ]}
                             >
