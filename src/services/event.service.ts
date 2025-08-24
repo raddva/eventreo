@@ -9,6 +9,9 @@ const eventServices = {
   removeEvent: (id: string) => instance.delete(`${endpoint.EVENT}/${id}`),
   updateEvent: (id: string, payload: IEvent) =>
     instance.put(`${endpoint.EVENT}/${id}`, payload),
+
+  searchLocationByRegency: (name: string) =>
+    instance.get(`${endpoint.REGION}-search?name=${name}`),
 };
 
 export default eventServices;

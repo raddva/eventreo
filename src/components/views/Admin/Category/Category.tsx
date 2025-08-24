@@ -1,9 +1,8 @@
 import DataTable from "@/components/ui/DataTable";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDisclosure } from "@heroui/react";
+import { useDisclosure } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Key, ReactNode, useCallback, useEffect } from "react";
-import { CiMenuKebab } from "react-icons/ci"
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import useCategory from "./useCategory";
 import AddCategoryModal from "./AddCategoryModal";
@@ -12,7 +11,6 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 import DropdownAction from "@/components/commons/DropdownAction";
 
 const Category = () => {
-    const router = useRouter();
     const { push, isReady, query } = useRouter();
     const { dataCategory, isLoadingCategory, refetchCategory, isRefetchingCategory, selectedId, setSelectedId } = useCategory();
     const addCategoryModal = useDisclosure();

@@ -1,8 +1,26 @@
 interface IEvent {
   _id?: string;
   name?: string;
+  slug?: string;
+  category?: string;
+  isFeatured?: boolean;
+  isPublished?: boolean;
   description?: string;
-  icon?: string | FileList;
+  startDate?: string;
+  endDate?: string;
+  location?: {
+    region: string;
+    coordinate: {
+      x: number;
+      y: number;
+    };
+  };
+  banner?: string | FileList;
 }
 
-export type { IEvent };
+interface IRegency {
+  name: string;
+  id: string;
+}
+
+export type { IEvent, IRegency };

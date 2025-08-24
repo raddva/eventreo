@@ -15,27 +15,11 @@ const schema = yup.object().shape({
 
 const useAddCategoryModal = () => {
   const {
-    mutateUploadFile,
     isPendingMutateUploadFile,
-    mutateRemoveFile,
     isPendingMutateRemoveFile,
+    handleRemoveFile,
+    handleUploadFile,
   } = useMediaHandling();
-
-  const handleUploadIcon = (
-    files: FileList,
-    onChange: (files: FileList | undefined) => void,
-  ) => {
-    if (files.length !== 0) {
-      onChange(files);
-      mutateUploadFile({
-        file: files[0],
-        callback: (fileUrl: string) => {
-          setValue("icon", fileUrl);
-        },
-      });
-    }
-  };
-
   const {
     control,
     handleSubmit: handleSubmitForm,
@@ -49,30 +33,30 @@ const useAddCategoryModal = () => {
   });
 
   const preview = watch("icon");
+  const fileUrl = getValues("icon");
+
+  const handleUploadIcon = (
+    files: FileList,
+    onChange: (files: FileList | undefined) => void,
+  ) => {
+    handleUploadFile(files, onChange, (fileUrl: string | undefined) => {
+      if (fileUrl) {
+        setValue("icon", fileUrl);
+      }
+    });
+  };
 
   const handleRemoveIcon = (
     onChange: (files: FileList | undefined) => void,
   ) => {
-    const fileUrl = getValues("icon");
-    if (typeof fileUrl === "string") {
-      mutateRemoveFile({ fileUrl, callback: () => onChange(undefined) });
-    }
+    handleRemoveFile(fileUrl, () => onChange(undefined));
   };
 
   const handleOnClose = (onClose: () => void) => {
-    const fileUrl = getValues("icon");
-    if (typeof fileUrl == "string") {
-      mutateRemoveFile({
-        fileUrl,
-        callback: () => {
-          reset();
-          onClose();
-        },
-      });
-    } else {
+    handleRemoveFile(fileUrl, () => {
       reset();
       onClose();
-    }
+    });
   };
 
   const addCategory = async (payload: ICategory) => {
