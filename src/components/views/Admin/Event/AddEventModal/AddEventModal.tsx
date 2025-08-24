@@ -1,6 +1,5 @@
 import { Input, Textarea } from "@heroui/input";
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/modal";
-import useAddEventModal from "./useAddEventModal";
 import { Controller } from "react-hook-form";
 import InputFile from "@/components/ui/InputFile";
 import { Button } from "@heroui/button";
@@ -11,6 +10,8 @@ import { ICategory } from "@/types/Category";
 import { DatePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from "@heroui/select";
 import { IRegency } from "@/types/Event";
+import useAddEventModal from "./useAddEventModal";
+import { getLocalTimeZone, now } from "@internationalized/date";
 
 interface PropTypes {
     isOpen: boolean;
@@ -116,6 +117,7 @@ const AddEventModal = (props: PropTypes) => {
                                             label="Start Date"
                                             variant="bordered"
                                             hideTimeZone
+                                            defaultValue={now(getLocalTimeZone())}
                                             showMonthAndYearPickers
                                             isInvalid={errors.startDate !== undefined}
                                             errorMessage={errors.startDate?.message}
@@ -131,6 +133,7 @@ const AddEventModal = (props: PropTypes) => {
                                             variant="bordered"
                                             hideTimeZone
                                             showMonthAndYearPickers
+                                            defaultValue={now(getLocalTimeZone())}
                                             isInvalid={errors.endDate !== undefined}
                                             errorMessage={errors.endDate?.message}
                                         />
@@ -165,6 +168,22 @@ const AddEventModal = (props: PropTypes) => {
                                         >
                                             <SelectItem key="true" textValue="Yes">Yes</SelectItem>
                                             <SelectItem key="false" textValue="No">No</SelectItem>
+                                        </Select>
+                                    )} />
+                                <Controller
+                                    control={control}
+                                    name="isOnline"
+                                    render={({ field }) => (
+                                        <Select
+                                            {...field}
+                                            label="Online / Offline"
+                                            variant="bordered"
+                                            isInvalid={errors.isOnline !== undefined}
+                                            errorMessage={errors.isOnline?.message}
+                                            disallowEmptySelection
+                                        >
+                                            <SelectItem key="true" textValue="Online">Online</SelectItem>
+                                            <SelectItem key="false" textValue="Offline">Offline</SelectItem>
                                         </Select>
                                     )} />
                                 <Controller

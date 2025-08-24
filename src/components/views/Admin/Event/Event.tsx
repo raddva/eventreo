@@ -67,7 +67,7 @@ const Event = () => {
                     totalPages={dataEvents?.pagination.totalPages}
                 />
             )}
-            <AddEventModal {...addEventModal} refetchEvent={refetchEvents} />
+            <AddEventModal {...addEventModal} refetchEvents={refetchEvents} />
             {/* <RemoveEventModal {...removeEventModal} refetchEvent={refetchEvent} selectedId={selectedId} setSelectedId={setSelectedId} /> */}
         </section>
     )

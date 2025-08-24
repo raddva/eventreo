@@ -3,19 +3,25 @@ interface IEvent {
   name?: string;
   slug?: string;
   category?: string;
-  isFeatured?: boolean;
-  isPublished?: boolean;
+  isFeatured?: boolean | string;
+  isPublished?: boolean | string;
+  isOnline?: boolean | string;
   description?: string;
   startDate?: string;
   endDate?: string;
   location?: {
     region: string;
-    coordinate: {
-      x: number;
-      y: number;
-    };
+    coordinates: number[];
   };
   banner?: string | FileList;
+}
+
+interface IEventForm extends IEvent {
+  region: string;
+  startDate: DateValue;
+  endDate: DateValue;
+  latitude: string;
+  longitude: string;
 }
 
 interface IRegency {
@@ -23,4 +29,4 @@ interface IRegency {
   id: string;
 }
 
-export type { IEvent, IRegency };
+export type { IEvent, IRegency, IEventForm };
