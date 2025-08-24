@@ -10,7 +10,6 @@ import { addToast } from "@heroui/toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getLocalTimeZone, now } from "@internationalized/date";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -32,7 +31,6 @@ const schema = yup.object().shape({
 });
 
 const useAddEventModal = () => {
-  const router = useRouter();
   const debounce = useDebounce();
   const {
     isPendingMutateUploadFile,
