@@ -8,18 +8,20 @@ import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import useCategory from "./useCategory";
 import AddCategoryModal from "./AddCategoryModal";
 import RemoveCategoryModal from "./RemoveCategoryModal";
+import useChangeUrl from "@/hooks/useChangeUrl";
+import DropdownAction from "@/components/commons/DropdownAction";
 
 const Category = () => {
     const router = useRouter();
     const { push, isReady, query } = useRouter();
-    const { dataCategory, isLoadingCategory, setUrl, currentLimit, currentPage, currentSearch, refetchCategory, isRefetchingCategory, handleChangeLimit, handleChangePage, handleClearSearch, handleSearch, selectedId, setSelectedId } = useCategory();
-
+    const { dataCategory, isLoadingCategory, refetchCategory, isRefetchingCategory, selectedId, setSelectedId } = useCategory();
     const addCategoryModal = useDisclosure();
     const removeCategoryModal = useDisclosure();
+    const { setUrl } = useChangeUrl();
 
     useEffect(() => {
         if (isReady) {
-            setUrl()
+            setUrl();
         }
     }, [isReady]);
 
@@ -34,30 +36,9 @@ const Category = () => {
                     )
                 case "actions":
                     return (
-                        <Dropdown>
-                            <DropdownTrigger>
-                                <Button isIconOnly size="sm" variant="light">
-                                    <CiMenuKebab className="text-default-700" />
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                                aria-label="Category Actions"
-                                items={[
-                                    { key: "detail", label: "Detail Category", onPress: () => { router.push(`category/${category._id}`) } },
-                                    { key: "delete", label: "Remove Category", onPress: () => { setSelectedId(`${category._id}`); removeCategoryModal.onOpen(); } },
-                                ]}
-                            >
-                                {(item) => (
-                                    <DropdownItem
-                                        key={item.key}
-                                        className={item.key === "delete" ? "text-danger-500" : ""}
-                                        onPress={item.onPress}
-                                    >
-                                        {item.label}
-                                    </DropdownItem>
-                                )}
-                            </DropdownMenu>
-                        </Dropdown >
+                        <DropdownAction
+                            onPressButtonDelete={() => { setSelectedId(`${category._id}`); removeCategoryModal.onOpen(); }}
+                            onPressButtonDetail={() => push(`category/${category._id}`)} />
                     )
                 default:
                     return cellValue as ReactNode;
@@ -69,16 +50,10 @@ const Category = () => {
             {Object.keys(query).length > 0 && (
                 <DataTable
                     emptyContent="Category is Empty"
-                    currentPage={Number(currentPage)}
                     renderCell={renderCell}
                     columns={COLUMN_LIST_CATEGORY}
                     data={dataCategory?.data}
-                    limit={String(currentLimit)}
                     isLoading={isLoadingCategory || isRefetchingCategory}
-                    onChangeLimit={handleChangeLimit}
-                    onChangePage={handleChangePage}
-                    onChangeSearch={handleSearch}
-                    onClearSearch={handleClearSearch}
                     buttonTopContentLabel="Create Category"
                     onClickButtonTopContent={addCategoryModal.onOpen}
                     totalPages={dataCategory?.pagination.totalPages}
@@ -86,8 +61,6 @@ const Category = () => {
             )}
             <AddCategoryModal {...addCategoryModal} refetchCategory={refetchCategory} />
             <RemoveCategoryModal {...removeCategoryModal} refetchCategory={refetchCategory} selectedId={selectedId} setSelectedId={setSelectedId} />
-
-            {/* <InputFile name="Upload Icon" isDropable></InputFile> */}
         </section>
     )
 }

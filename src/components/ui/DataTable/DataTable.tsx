@@ -1,4 +1,5 @@
 import { LIMIT_LISTS } from "@/constants/list.constants";
+import useChangeUrl from "@/hooks/useChangeUrl";
 import { cn } from "@/utils/cn";
 import { Button, Input, Pagination, Select, SelectItem, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react"
 import { ChangeEvent, Key, ReactNode, useMemo } from "react";
@@ -7,27 +8,30 @@ import { CiSearch } from "react-icons/ci";
 interface PropTypes {
     buttonTopContentLabel?: string;
     columns: Record<string, unknown>[];
-    currentPage: number;
     data: Record<string, unknown>[];
     emptyContent: string;
     isLoading?: boolean;
-    limit: string;
-    onChangeLimit: (e: ChangeEvent<HTMLSelectElement>) => void;
-    onChangePage: (page: number) => void;
-    onChangeSearch: (e: ChangeEvent<HTMLInputElement>) => void;
-    onClearSearch: () => void;
     onClickButtonTopContent?: () => void;
     renderCell: (item: Record<string, unknown>, columnKey: Key) => ReactNode;
     totalPages: number;
 }
 
 const DataTable = (props: PropTypes) => {
-    const { buttonTopContentLabel, columns, currentPage, data, emptyContent, isLoading, limit, onChangeLimit, onChangePage, onChangeSearch, onClearSearch, onClickButtonTopContent, renderCell, totalPages } = props;
+    const { buttonTopContentLabel, columns, data, emptyContent, isLoading, onClickButtonTopContent, renderCell, totalPages } = props;
+    const {
+        handleChangeLimit,
+        handleChangePage,
+        handleSearch,
+        handleClearSearch,
+        currentLimit,
+        currentPage,
+        currentSearch
+    } = useChangeUrl();
 
     const TopContent = useMemo(() => {
         return (
             <div className="flex flex-col-reverse items-start justify-between gap-y-4 lg:flex-row lg:items-center">
-                <Input isClearable className="w-full sm:max-w-[24%]" placeholder="Search by Name" startContent={<CiSearch />} onClear={onClearSearch} onChange={onChangeSearch} />
+                <Input isClearable className="w-full sm:max-w-[24%]" placeholder="Search by Name" startContent={<CiSearch />} onClear={handleClearSearch} onChange={handleSearch} />
                 {buttonTopContentLabel && <Button color="primary" onPress={onClickButtonTopContent}>
                     {buttonTopContentLabel}
                 </Button>}
@@ -35,15 +39,15 @@ const DataTable = (props: PropTypes) => {
         )
     }, [
         buttonTopContentLabel,
-        onChangeSearch,
-        onClearSearch,
+        handleSearch,
+        handleClearSearch,
         onClickButtonTopContent,
     ]);
 
     const BottomContent = useMemo(() => {
         return (
             <div className="flex items-center justify-center lg:justify-between">
-                <Select className="hidden max-w-36 lg:block" size="md" selectedKeys={[limit]} onChange={onChangeLimit} selectionMode="single" startContent={<p className="text-small">Show:</p>} disallowEmptySelection>
+                <Select className="hidden max-w-36 lg:block" size="md" selectedKeys={[`${currentLimit}`]} onChange={handleChangeLimit} selectionMode="single" startContent={<p className="text-small">Show:</p>} disallowEmptySelection>
                     {LIMIT_LISTS.map((item) => (
                         <SelectItem key={item.value}>
                             {item.label}
@@ -51,11 +55,11 @@ const DataTable = (props: PropTypes) => {
                     ))}
                 </Select>
                 {totalPages > 1 &&
-                    <Pagination isCompact showControls color="primary" page={currentPage} total={totalPages} onChange={onChangePage} loop />
+                    <Pagination isCompact showControls color="primary" page={Number(currentPage)} total={totalPages} onChange={handleChangePage} loop />
                 }
             </div>
         );
-    }, [limit, currentPage, onChangeLimit, totalPages, onChangePage]);
+    }, [currentLimit, currentPage, handleChangeLimit, totalPages, handleChangePage]);
 
     return (
         <Table topContent={TopContent} topContentPlacement="outside" bottomContent={BottomContent} bottomContentPlacement="outside" classNames={

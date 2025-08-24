@@ -53,14 +53,14 @@ const SIDEBAR_ADMIN = [
         key: "transaction",
         label: "Transaction",
         href: "/admin/transaction",
-        icon: <PiUserCircleGear />,
-    },
-    {
-        key: "setting",
-        label: "Setting",
-        href: "/admin/setting",
         icon: <SlWallet />,
-    }
+    },
+    // {
+    //     key: "setting",
+    //     label: "Setting",
+    //     href: "/admin/setting",
+    //     icon: <PiUserCircleGear />,
+    // }
 ]
 
 export { SIDEBAR_ADMIN, SIDEBAR_MEMBER };
