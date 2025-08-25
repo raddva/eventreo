@@ -17,11 +17,11 @@ interface IEvent {
 }
 
 interface IEventForm extends IEvent {
-  region: string;
-  startDate: DateValue;
-  endDate: DateValue;
-  latitude: string;
-  longitude: string;
+  region?: string;
+  startDate?: DateValue;
+  endDate?: DateValue;
+  latitude?: string;
+  longitude?: string;
 }
 
 interface IRegency {

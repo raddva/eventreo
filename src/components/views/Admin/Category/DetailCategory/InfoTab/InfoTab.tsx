@@ -60,7 +60,7 @@ const InfoTab = (props: PropTypes) => {
                                     defaultValue={dataCategory?.name} />
                             )} />
                     </Skeleton>
-                    <Skeleton isLoaded={!!dataCategory?.name} className="rounded-lg">
+                    <Skeleton isLoaded={!!dataCategory?.description} className="rounded-lg">
                         <Controller
                             control={controlUpdateInfo}
                             name="description"

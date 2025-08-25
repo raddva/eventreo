@@ -23,7 +23,13 @@ const toDateStandard = (date: DateValue) => {
 };
 
 const toInputDate = (date: string) => {
-  const formattedDate = parseAbsoluteToLocal(`${date.replace(" ", "T")}+07.00`);
+  const [datePart, timePart] = date.split(" ");
+  const [year, month, day] = datePart.split("-");
+  const normalized = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}T${timePart}+07:00`;
+  return parseAbsoluteToLocal(normalized);
+
+  // const formattedDate = parseAbsoluteToLocal(`${date.replace(" ", "T")}+07:00`);
+  // return formattedDate;
 };
 
 export { toDateStandard, toInputDate };
