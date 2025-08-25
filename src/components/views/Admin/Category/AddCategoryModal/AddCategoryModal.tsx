@@ -37,7 +37,7 @@ const AddCategoryModal = (props: PropTypes) => {
             onClose();
             refetchCategory();
         }
-    });
+    }, [isSuccessMutateAddCategory, onClose, refetchCategory]);
 
     const disabledSubmit = isPendingMutateAddCategory || isPendingMutateUploadFile || isPendingMutateRemoveFile;
 

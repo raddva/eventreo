@@ -38,7 +38,7 @@ const InfoTab = (props: PropTypes) => {
             setValueUpdateInfo("category", `${dataEvent?.category}`);
             setValueUpdateInfo("startDate", toInputDate(dataEvent?.startDate));
             setValueUpdateInfo("endDate", toInputDate(dataEvent?.endDate));
-            setValueUpdateInfo("isPublished", `${dataEvent?.isPublished}`);
+            setValueUpdateInfo("isPublish", `${dataEvent?.isPublish}`);
             setValueUpdateInfo("isFeatured", `${dataEvent?.isFeatured}`);
             setValueUpdateInfo("description", `${dataEvent?.description}`);
         }
@@ -152,17 +152,17 @@ const InfoTab = (props: PropTypes) => {
                     <Skeleton isLoaded={!!dataEvent} className="rounded-lg">
                         <Controller
                             control={controlUpdateInfo}
-                            name="isPublished"
+                            name="isPublish"
                             render={({ field }) => (
                                 <Select
                                     {...field}
                                     labelPlacement="outside"
                                     label="Status"
                                     variant="bordered"
-                                    isInvalid={errorsUpdateInfo.isPublished !== undefined}
-                                    errorMessage={errorsUpdateInfo.isPublished?.message}
+                                    isInvalid={errorsUpdateInfo.isPublish !== undefined}
+                                    errorMessage={errorsUpdateInfo.isPublish?.message}
                                     disallowEmptySelection
-                                    defaultSelectedKeys={[dataEvent?.isPublished ? "true" : "false"]}
+                                    defaultSelectedKeys={[dataEvent?.isPublish ? "true" : "false"]}
                                 >
                                     <SelectItem key="true" textValue="Publish">Publish</SelectItem>
                                     <SelectItem key="false" textValue="Draft">Draft</SelectItem>

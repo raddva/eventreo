@@ -11,7 +11,6 @@ import { DatePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from "@heroui/select";
 import { IRegency } from "@/types/Event";
 import useAddEventModal from "./useAddEventModal";
-import { getLocalTimeZone, now } from "@internationalized/date";
 
 interface PropTypes {
     isOpen: boolean;
@@ -47,7 +46,7 @@ const AddEventModal = (props: PropTypes) => {
             onClose();
             refetchEvents();
         }
-    });
+    }, [isSuccessMutateAddEvent, onClose, refetchEvents]);
 
     const disabledSubmit = isPendingMutateAddEvent || isPendingMutateUploadFile || isPendingMutateRemoveFile;
 
@@ -138,14 +137,14 @@ const AddEventModal = (props: PropTypes) => {
                                     )} />
                                 <Controller
                                     control={control}
-                                    name="isPublished"
+                                    name="isPublish"
                                     render={({ field }) => (
                                         <Select
                                             {...field}
                                             label="Status"
                                             variant="bordered"
-                                            isInvalid={errors.isPublished !== undefined}
-                                            errorMessage={errors.isPublished?.message}
+                                            isInvalid={errors.isPublish !== undefined}
+                                            errorMessage={errors.isPublish?.message}
                                             disallowEmptySelection
                                         >
                                             <SelectItem key="true" textValue="Publish">Publish</SelectItem>
@@ -242,6 +241,18 @@ const AddEventModal = (props: PropTypes) => {
                                             variant="bordered"
                                             isInvalid={errors.longitude !== undefined}
                                             errorMessage={errors.longitude?.message}
+                                        />
+                                    )} />
+                                <Controller
+                                    control={control}
+                                    name="address"
+                                    render={({ field }) => (
+                                        <Textarea
+                                            {...field}
+                                            label="Address"
+                                            variant="bordered"
+                                            isInvalid={errors.address !== undefined}
+                                            errorMessage={errors.address?.message}
                                         />
                                     )} />
                             </div>

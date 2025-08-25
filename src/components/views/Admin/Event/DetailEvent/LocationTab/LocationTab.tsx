@@ -1,7 +1,7 @@
 import { IEventForm, IRegency } from "@/types/Event";
 import { Button } from "@heroui/button";
 import { Card, CardBody, CardHeader } from "@heroui/card"
-import { Input } from "@heroui/input";
+import { Input, Textarea } from "@heroui/input";
 import { Skeleton } from "@heroui/skeleton";
 import useLocationTab from "./useLocationTab";
 import { useEffect } from "react";
@@ -39,6 +39,7 @@ const LocationTab = (props: PropTypes) => {
             setValueUpdateLocation("region", `${dataEvent?.location?.region}`);
             setValueUpdateLocation("latitude", `${dataEvent?.location?.coordinates[0]}`);
             setValueUpdateLocation("longitude", `${dataEvent?.location?.coordinates[1]}`);
+            setValueUpdateLocation("address", `${dataEvent?.location?.address}`);
         }
 
         if (isSuccessUpdate) {
@@ -50,8 +51,8 @@ const LocationTab = (props: PropTypes) => {
     return (
         <Card className="w-full p-4 lg:w-1/2">
             <CardHeader className="flex-col items-center">
-                <h1 className="w-full text-xl font-bold">Event Locationrmation</h1>
-                <p className="text-small text-default-400 w-full">Manage Locationrmation of this event</p>
+                <h1 className="w-full text-xl font-bold">Event Location</h1>
+                <p className="text-small text-default-400 w-full">Manage Location of this event</p>
             </CardHeader>
             <CardBody>
                 <form className="flex flex-col gap-4" onSubmit={handleSubmitUpdateLocation(onUpdate)}>
@@ -103,6 +104,22 @@ const LocationTab = (props: PropTypes) => {
                         ) :
                             (<div className="w-full h-16" />)
                         }
+                    </Skeleton>
+                    <Skeleton isLoaded={!!dataEvent?.location?.address} className="rounded-lg">
+                        <Controller
+                            control={controlUpdateLocation}
+                            name="address"
+                            render={({ field }) => (
+                                <Textarea
+                                    {...field}
+                                    labelPlacement="outside"
+                                    label="Address"
+                                    variant="bordered"
+                                    defaultValue={dataEvent?.location?.address}
+                                    isInvalid={errorsUpdateLocation.address !== undefined}
+                                    errorMessage={errorsUpdateLocation.address?.message}
+                                />
+                            )} />
                     </Skeleton>
                     <Skeleton isLoaded={!!dataEvent?.location?.coordinates[0]} className="rounded-lg">
                         <Controller
