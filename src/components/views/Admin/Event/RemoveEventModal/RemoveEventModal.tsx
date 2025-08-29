@@ -25,6 +25,7 @@ const RemoveEventModal = (props: PropTypes) => {
         if (isSuccessMutateRemoveEvent) {
             onClose();
             refetchEvents();
+            setSelectedId("");
         }
     }, [isSuccessMutateRemoveEvent]);
 

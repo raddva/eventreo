@@ -25,6 +25,7 @@ const RemoveCategoryModal = (props: PropTypes) => {
         if (isSuccessMutateRemoveCategory) {
             onClose();
             refetchCategory();
+            setSelectedId("");
         }
     }, [isSuccessMutateRemoveCategory]);
 
