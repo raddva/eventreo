@@ -1,50 +1,64 @@
 import { Input, Textarea } from "@heroui/input";
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/modal";
-import useAddTicketModal from "./useAddTicketModal";
+import useUpdateTicketModal from "./useUpdateTicketModal";
 import { Controller } from "react-hook-form";
 import { Button } from "@heroui/button";
 import { Spinner } from "@heroui/spinner";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { ITicket } from "@/types/Ticket";
 
 interface PropTypes {
     isOpen: boolean;
     onClose: () => void;
     refetchTicket: () => void;
     onOpenChange: () => void;
+    selectedDataTicket: ITicket | null;
+    setSelectedDataTicket: Dispatch<SetStateAction<ITicket | null>>;
 }
 
-const AddTicketModal = (props: PropTypes) => {
-    const { isOpen, onClose, refetchTicket, onOpenChange } = props;
+const UpdateTicketModal = (props: PropTypes) => {
+    const { isOpen, onClose, refetchTicket, onOpenChange, selectedDataTicket, setSelectedDataTicket } = props;
 
     const {
         control,
         errors,
         reset,
         handleSubmitForm,
-        handleAddTicket,
-        isPendingMutateAddTicket,
-        isSuccessMutateAddTicket,
-    } = useAddTicketModal();
+        handleUpdateTicket,
+        isPendingMutateUpdateTicket,
+        isSuccessMutateUpdateTicket,
+        setValueUpdateTicket
+    } = useUpdateTicketModal(`${selectedDataTicket?._id}`);
 
     useEffect(() => {
-        if (isSuccessMutateAddTicket) {
+        if (isSuccessMutateUpdateTicket) {
             onClose();
             refetchTicket();
+            setSelectedDataTicket(null);
         }
-    }, [isSuccessMutateAddTicket, onClose, refetchTicket]);
+    }, [isSuccessMutateUpdateTicket, onClose, refetchTicket]);
+
+    useEffect(() => {
+        if (selectedDataTicket) {
+            setValueUpdateTicket("name", `${selectedDataTicket?.name}`);
+            setValueUpdateTicket("price", `${selectedDataTicket?.price}`);
+            setValueUpdateTicket("quantity", `${selectedDataTicket?.quantity}`);
+            setValueUpdateTicket("description", `${selectedDataTicket?.description}`);
+        }
+    }, [selectedDataTicket]);
 
     const handleOnCLose = () => {
-        reset(); onClose();
+        reset(); onClose(); setSelectedDataTicket(null);
     }
 
     return (
         <Modal isOpen={isOpen} placement="center" scrollBehavior="inside" onOpenChange={onOpenChange}
             onClose={() => handleOnCLose}
         >
-            <form onSubmit={handleSubmitForm(handleAddTicket)}>
+            <form onSubmit={handleSubmitForm(handleUpdateTicket)}>
                 <ModalContent className="m-4">
                     <ModalHeader>
-                        Add Ticket
+                        Update Ticket
                     </ModalHeader>
                     <ModalBody>
                         <div className="flex flex-col gap-4">
@@ -109,13 +123,13 @@ const AddTicketModal = (props: PropTypes) => {
                             color="danger"
                             variant="bordered"
                             onPress={() => handleOnCLose}
-                            disabled={isPendingMutateAddTicket}
+                            disabled={isPendingMutateUpdateTicket}
                         >Cancel</Button>
                         <Button
                             color="primary"
                             type="submit"
-                            disabled={isPendingMutateAddTicket}
-                        >{isPendingMutateAddTicket ? (<Spinner size="sm" color="white" variant="wave" />) : ("Create Ticket")}</Button>
+                            disabled={isPendingMutateUpdateTicket}
+                        >{isPendingMutateUpdateTicket ? (<Spinner size="sm" color="white" variant="wave" />) : ("Create Ticket")}</Button>
                     </ModalFooter>
                 </ModalContent>
             </form>
@@ -124,4 +138,4 @@ const AddTicketModal = (props: PropTypes) => {
     )
 }
 
-export default AddTicketModal;
+export default UpdateTicketModal;

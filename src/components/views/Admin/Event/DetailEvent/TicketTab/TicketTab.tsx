@@ -10,6 +10,7 @@ import useTicketTab from "./useTicketTab";
 import AddTicketModal from "./AddTicketModal";
 import RemoveTicketModal from "./RemoveTicketModal";
 import { ITicket } from "@/types/Ticket";
+import UpdateTicketModal from "./UpdateTicketModal";
 
 const TicketTab = () => {
     const {
@@ -36,7 +37,7 @@ const TicketTab = () => {
                     return (
                         <DropdownAction
                             onPressButtonDelete={() => { setSelectedDataTicket(ticket as ITicket); removeTicketModal.onOpen() }}
-                            onPressButtonDetail={() => { updateTicketModal.onOpen() }} />
+                            onPressButtonDetail={() => { setSelectedDataTicket(ticket as ITicket); updateTicketModal.onOpen() }} />
                     )
                 default:
                     return cellValue as ReactNode;
@@ -71,6 +72,10 @@ const TicketTab = () => {
             </Card>
             <AddTicketModal {...addTicketModal} refetchTicket={refetchTicket} />
             <RemoveTicketModal {...removeTicketModal}
+                setSelectedDataTicket={setSelectedDataTicket}
+                selectedDataTicket={selectedDataTicket}
+                refetchTicket={refetchTicket} />
+            <UpdateTicketModal {...updateTicketModal}
                 setSelectedDataTicket={setSelectedDataTicket}
                 selectedDataTicket={selectedDataTicket}
                 refetchTicket={refetchTicket} />
