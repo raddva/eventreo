@@ -7,14 +7,14 @@ import { useRouter } from "next/router";
 const useDetailCategory = () => {
   const { query, isReady } = useRouter();
 
-  const getCategoryById = async (id: string) => {
-    const { data } = await categoryServices.getCategoryById(id);
+  const getCategoryById = async () => {
+    const { data } = await categoryServices.getCategoryById(`${query.id}`);
     return data.data;
   };
 
   const { data: dataCategory, refetch: refetchCategory } = useQuery({
     queryKey: ["Category"],
-    queryFn: () => getCategoryById(`${query.id}`),
+    queryFn: getCategoryById,
     enabled: isReady,
   });
 
