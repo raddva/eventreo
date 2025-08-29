@@ -4,9 +4,10 @@ import { convertIDR } from "@/utils/currency";
 import { Button } from "@heroui/button";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { useDisclosure } from "@heroui/modal";
-import { Key, ReactNode, useCallback } from "react";
+import { Fragment, Key, ReactNode, useCallback } from "react";
 import { COLUMN_LIST_TICKET } from "./TicketTab.constants";
 import useTicketTab from "./useTicketTab";
+import AddTicketModal from "./AddTicketModal";
 
 const TicketTab = () => {
     const {
@@ -40,29 +41,32 @@ const TicketTab = () => {
     );
 
     return (
-        <Card className="w-full p-4">
-            <CardHeader className="justify-between items-center">
-                <div className="flex flex-col items-center">
-                    <h1 className="w-full text-xl font-bold">Event Tickets</h1>
-                    <p className="text-small text-default-400 w-full">Manage Tickets of this event</p>
-                </div>
-                <Button color="primary">
-                    Add New Ticket
-                </Button>
-            </CardHeader>
-            <CardBody className="pt-0">
-                <DataTable
-                    emptyContent="Ticket is Empty"
-                    renderCell={renderCell}
-                    columns={COLUMN_LIST_TICKET}
-                    data={dataTicket || []}
-                    isLoading={isPendingTicket || isRefetchingTicket}
-                    totalPages={1}
-                    showLimit={false}
-                    showSearch={false}
-                />
-            </CardBody>
-        </Card>
+        <Fragment>
+            <Card className="w-full p-4">
+                <CardHeader className="justify-between items-center">
+                    <div className="flex flex-col items-center">
+                        <h1 className="w-full text-xl font-bold">Event Tickets</h1>
+                        <p className="text-small text-default-400 w-full">Manage Tickets of this event</p>
+                    </div>
+                    <Button color="primary" onPress={addTicketModal.onOpen}>
+                        Add New Ticket
+                    </Button>
+                </CardHeader>
+                <CardBody className="pt-0">
+                    <DataTable
+                        emptyContent="Ticket is Empty"
+                        renderCell={renderCell}
+                        columns={COLUMN_LIST_TICKET}
+                        data={dataTicket || []}
+                        isLoading={isPendingTicket || isRefetchingTicket}
+                        totalPages={1}
+                        showLimit={false}
+                        showSearch={false}
+                    />
+                </CardBody>
+            </Card>
+            <AddTicketModal {...addTicketModal} refetchTicket={refetchTicket} />
+        </Fragment>
     )
 }
 
