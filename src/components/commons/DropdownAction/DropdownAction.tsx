@@ -2,7 +2,7 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@
 import { CiMenuKebab } from "react-icons/ci";
 
 interface PropTypes {
-    onPressButtonDetail: () => {};
+    onPressButtonDetail: () => void;
     onPressButtonDelete: () => void;
 }
 
