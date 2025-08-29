@@ -7,6 +7,7 @@ import { COLUMN_LIST_BANNER } from "./Banner.constants";
 import useBanner from "./useBanner";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import DropdownAction from "@/components/commons/DropdownAction";
+import AddBannerModal from "./AddBannerModal";
 
 const Banner = () => {
     const { push, isReady, query } = useRouter();
@@ -61,8 +62,8 @@ const Banner = () => {
                     totalPages={dataBanner?.pagination.totalPages}
                 />
             )}
-            {/* <AddBannerModal {...addBannerModal} refetchBanner={refetchBanner} />
-            <RemoveBannerModal {...removeBannerModal} refetchBanner={refetchBanner} selectedId={selectedId} setSelectedId={setSelectedId} /> */}
+            <AddBannerModal {...addBannerModal} refetchBanner={refetchBanner} />
+            {/* <RemoveBannerModal {...removeBannerModal} refetchBanner={refetchBanner} selectedId={selectedId} setSelectedId={setSelectedId} /> */}
         </section>
     )
 }
