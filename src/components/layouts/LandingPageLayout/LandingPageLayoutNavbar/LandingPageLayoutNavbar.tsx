@@ -18,7 +18,7 @@ const LandingPageLayoutNavbar = () => {
     const { profileData } = useLandingPageLayoutNavbar();
 
     return (
-        <Navbar maxWidth="full" className="max-w-screen-3xl 3xl:container" isBordered isBlurred={false} shouldHideOnScroll>
+        <Navbar maxWidth="2xl" isBordered isBlurred={false} shouldHideOnScroll>
             <div className="flex items-center gap-8">
                 <NavbarBrand as={Link} href="/">
                     <Image src="/images/general/logo.svg" alt="logo" width={150} height={50} className="cursor-pointer" />
