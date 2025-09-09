@@ -11,6 +11,7 @@ import { DatePicker } from "@heroui/date-picker";
 import { Select, SelectItem } from "@heroui/select";
 import { IRegency } from "@/types/Event";
 import useAddEventModal from "./useAddEventModal";
+import { getLocalTimeZone, now } from "@internationalized/date";
 
 interface PropTypes {
     isOpen: boolean;
@@ -38,7 +39,8 @@ const AddEventModal = (props: PropTypes) => {
         isPendingMutateRemoveFile,
         handleOnClose,
         handleSearchRegion,
-        searchRegency
+        searchRegency,
+        setValue
     } = useAddEventModal();
 
     useEffect(() => {
@@ -49,6 +51,11 @@ const AddEventModal = (props: PropTypes) => {
     }, [isSuccessMutateAddEvent, onClose, refetchEvents]);
 
     const disabledSubmit = isPendingMutateAddEvent || isPendingMutateUploadFile || isPendingMutateRemoveFile;
+
+    useEffect(() => {
+        setValue("startDate", now(getLocalTimeZone()));
+        setValue("endDate", now(getLocalTimeZone()));
+    }, [onOpenChange]);
 
     return (
         <Modal isOpen={isOpen} placement="center" scrollBehavior="inside" onOpenChange={onOpenChange}
@@ -167,22 +174,7 @@ const AddEventModal = (props: PropTypes) => {
                                             <SelectItem key="false" textValue="No">No</SelectItem>
                                         </Select>
                                     )} />
-                                <Controller
-                                    control={control}
-                                    name="isOnline"
-                                    render={({ field }) => (
-                                        <Select
-                                            {...field}
-                                            label="Online / Offline"
-                                            variant="bordered"
-                                            isInvalid={errors.isOnline !== undefined}
-                                            errorMessage={errors.isOnline?.message}
-                                            disallowEmptySelection
-                                        >
-                                            <SelectItem key="true" textValue="Online">Online</SelectItem>
-                                            <SelectItem key="false" textValue="Offline">Offline</SelectItem>
-                                        </Select>
-                                    )} />
+
                                 <Controller
                                     control={control}
                                     name="description"
@@ -197,6 +189,22 @@ const AddEventModal = (props: PropTypes) => {
                                     )} />
                             </div>
                             <p className="text-sm font-bold">Location</p>
+                            <Controller
+                                control={control}
+                                name="isOnline"
+                                render={({ field }) => (
+                                    <Select
+                                        {...field}
+                                        label="Online / Offline"
+                                        variant="bordered"
+                                        isInvalid={errors.isOnline !== undefined}
+                                        errorMessage={errors.isOnline?.message}
+                                        disallowEmptySelection
+                                    >
+                                        <SelectItem key="true" textValue="Online">Online</SelectItem>
+                                        <SelectItem key="false" textValue="Offline">Offline</SelectItem>
+                                    </Select>
+                                )} />
                             <div className="flex flex-col gap-4 mb-4">
                                 <Controller
                                     control={control}

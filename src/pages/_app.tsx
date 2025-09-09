@@ -5,12 +5,20 @@ import { SessionProvider } from "next-auth/react";
 import AppShell from "@/components/commons/AppShell";
 import { HeroUIProvider } from "@heroui/system";
 import { ToastProvider } from "@heroui/toast";
+import { onErrorHandler } from "@/libs/axios/responseHandler";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
       retry: false,
+      throwOnError(err) {
+        onErrorHandler(err);
+        return false;
+      }
+    },
+    mutations: {
+      onError: onErrorHandler
     }
   }
 });

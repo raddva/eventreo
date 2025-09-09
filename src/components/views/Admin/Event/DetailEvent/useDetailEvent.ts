@@ -1,6 +1,7 @@
 import eventServices from "@/services/event.service";
 import { IEvent, IEventForm } from "@/types/Event";
 import { toDateStandard } from "@/utils/date";
+import { DateValue } from "@heroui/react";
 import { addToast } from "@heroui/toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -55,15 +56,15 @@ const useDetailEvent = () => {
       ...data,
       isFeatured: Boolean(data.isFeatured),
       isPublish: Boolean(data.isPublish),
-      startDate: data.startDate ? toDateStandard(data.startDate) : "",
-      endDate: data.startDate ? toDateStandard(data.endDate) : "",
+      startDate: toDateStandard(data.startDate as DateValue),
+      endDate: toDateStandard(data.endDate as DateValue),
     };
     mutateUpdateEvent(payload);
   };
 
   const handleUpdateLocation = (data: IEventForm) => {
     const payload = {
-      isOnline: Boolean(data.isOnline),
+      ...data,
       location: {
         address: data.address ?? "",
         region: data.region ?? "",
