@@ -54,8 +54,6 @@ const useDetailEvent = () => {
   const handleUpdateInfo = (data: IEventForm) => {
     const payload = {
       ...data,
-      isFeatured: Boolean(data.isFeatured),
-      isPublish: Boolean(data.isPublish),
       startDate: toDateStandard(data.startDate as DateValue),
       endDate: toDateStandard(data.endDate as DateValue),
     };

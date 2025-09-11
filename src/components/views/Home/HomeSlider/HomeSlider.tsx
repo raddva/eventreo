@@ -36,9 +36,10 @@ const HomeSlider = (props: PropTypes) => {
                                     src={`${banner.image}`}
                                     alt={`${banner.title}`}
                                     width={1920}
-                                    height={1080}
-                                    className="h-[80%] w-full rounded-2xl object-cover lg:h-[90%]"
+                                    height={800}
+                                    className="h-full w-full rounded-2xl object-cover"
                                 />
+
                             </SwiperSlide>
                         ))}
                     </Swiper>
