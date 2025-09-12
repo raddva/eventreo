@@ -61,7 +61,7 @@ const InfoTab = (props: PropTypes) => {
                                     defaultValue={dataBanner?.title} />
                             )} />
                     </Skeleton>
-                    <Skeleton isLoaded={!!dataBanner?.isShow} className="rounded-lg">
+                    <Skeleton isLoaded={!!dataBanner} className="rounded-lg">
                         <Controller
                             control={controlUpdateInfo}
                             name="isShow"

@@ -2,6 +2,7 @@ import bannerServices from "@/services/banner.service";
 import { useQuery } from "@tanstack/react-query";
 import { LIMIT_BANNER, PAGE_DEFAULT } from "@/constants/list.constants";
 import eventServices from "@/services/event.service";
+import categoryServices from "@/services/category.service";
 
 const useHome = () => {
   const getBanners = async () => {
@@ -37,6 +38,17 @@ const useHome = () => {
     },
   );
 
+  const getCategories = async () => {
+    const res = await categoryServices.getCategories();
+    const { data } = res;
+    return data;
+  };
+
+  const { data: dataCategories, isLoading: isLoadingCategories } = useQuery({
+    queryKey: ["Categories"],
+    queryFn: getCategories,
+  });
+
   return {
     dataBanners,
     isLoadingBanners,
@@ -44,6 +56,8 @@ const useHome = () => {
     isLoadingFeaturedEvents,
     dataLatestEvents,
     isLoadingLatestEvents,
+    dataCategories,
+    isLoadingCategories,
   };
 };
 
