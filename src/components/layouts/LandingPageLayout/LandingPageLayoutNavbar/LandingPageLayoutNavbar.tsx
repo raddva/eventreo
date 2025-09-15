@@ -20,8 +20,10 @@ const LandingPageLayoutNavbar = () => {
     return (
         <Navbar maxWidth="2xl" isBordered isBlurred={false} shouldHideOnScroll>
             <div className="flex items-center gap-8">
-                <NavbarBrand as={Link} href="/">
-                    <Image src="/images/general/logo.svg" alt="logo" width={150} height={50} className="cursor-pointer" />
+                <NavbarBrand>
+                    <Link href="/">
+                        <Image src="/images/general/logo.svg" alt="logo" width={150} height={50} className="cursor-pointer" />
+                    </Link>
                 </NavbarBrand>
                 <NavbarContent className="hidden lg:flex" justify="center">
                     {NAV_ITEMS.map((item) => (
@@ -33,7 +35,6 @@ const LandingPageLayoutNavbar = () => {
                                 }
                             )}>
                             <Link href={item.href} >{item.label}</Link>
-
                         </NavbarItem>
                     ))}
                 </NavbarContent>
@@ -100,14 +101,13 @@ const LandingPageLayoutNavbar = () => {
                     {NAV_ITEMS.map((item) => (
                         <NavbarMenuItem
                             key={`nav-${item.label}`}
-                            className={
+                        >
+                            <Link href={item.href} className={
                                 cn(
                                     "font-medium text-default-700 hover:text-primary",
                                     { "font-bold text-primary": router.pathname === item.href }
                                 )
-                            }
-                        >
-                            <Link href={item.href} >{item.label}</Link>
+                            }>{item.label}</Link>
                         </NavbarMenuItem>
                     ))}
                     {session.status === "authenticated" ? (

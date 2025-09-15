@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import EventFooter from "./EventFooter";
 import EventFilter from "./EventFilter";
+import Image from "next/image";
 
 const Event = () => {
     const router = useRouter();
@@ -41,6 +42,20 @@ const Event = () => {
 
                 {!isLoadingEvents && dataEvents?.data?.length > 0 && (
                     <EventFooter totalPages={dataEvents?.pagination?.totalPages} />
+                )}
+
+                {dataEvents?.data?.length < 1 && !isLoadingEvents && !isRefetchingEvents && (
+                    <div className="flex flex-col items-center justify-center gap-4 py-20">
+                        <Image
+                            src="/images/illustrations/not-found.svg"
+                            alt="not-found"
+                            width={300}
+                            height={300}
+                        />
+                        <h2 className="text-center text-3xl font-bold text-primary">
+                            Event not Found.
+                        </h2>
+                    </div>
                 )}
             </div>
         </div>

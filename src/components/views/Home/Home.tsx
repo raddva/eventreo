@@ -11,7 +11,7 @@ const Home = () => {
     return (
         <div>
             <HomeSlider banners={dataBanners?.data} isLoadingBanners={isLoadingBanners} />
-            <HomeEventList title="Featured Event" events={dataFeaturedEvents?.data} isLoading={isLoadingFeaturedEvents} />
+            <HomeEventList title="Featured Event" events={dataFeaturedEvents?.data} isLoading={isLoadingFeaturedEvents} urlMore="/event?isFeatured=true" />
             <Skeleton isLoaded={!isLoadingBanners} className="mb-16 h-[20vw] w-full rounded-2xl px-6 lg:px-0">
                 <Image
                     src={dataBanners && `${dataBanners?.data[1]?.image}`}
