@@ -5,13 +5,16 @@ import { FaClock, FaLocationDot } from "react-icons/fa6";
 import Image from "next/image";
 import { ITicket } from "@/types/Ticket";
 import DetailEventTickets from "./DetailEventTickets";
+import DetailEventCart from "./DetailEventCart";
 
 const DetailEvent = () => {
     const {
         eventData,
-        isLoadingEvent,
         dataTickets,
-        isLoadingTickets
+        cart,
+        dataTicketInCart,
+        handleAddToCart,
+        handleChangeQuantity
     } = useDetailEvent();
 
     return (
@@ -75,13 +78,22 @@ const DetailEvent = () => {
                                 {dataTickets?.map((ticket: ITicket) =>
                                     <DetailEventTickets
                                         key={`ticket-${ticket._id}`}
-                                        ticket={ticket} />
+                                        ticket={ticket}
+                                        cart={cart}
+                                        handleAddToCart={() => handleAddToCart(`${ticket._id}`)}
+                                    />
                                 )}
                             </div>
                         </Tab>
                     </Tabs>
                 </div>
-                <div className="w-full lg:w-2/6"></div>
+                <div className="w-full lg:w-2/6">
+                    <DetailEventCart
+                        cart={cart}
+                        dataTicketInCart={dataTicketInCart}
+                        onChangeQuantity={handleChangeQuantity}
+                    />
+                </div>
             </section >
         </div >
     )
