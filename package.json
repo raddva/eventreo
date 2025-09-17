@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroui/accordion": "^2.2.23",
     "@heroui/autocomplete": "^2.3.26",
+    "@heroui/breadcrumbs": "^2.2.21",
     "@heroui/button": "^2.2.24",
     "@heroui/card": "^2.2.23",
     "@heroui/chip": "^2.2.20",
@@ -24,10 +26,10 @@
     "@heroui/select": "^2.4.25",
     "@heroui/skeleton": "^2.2.15",
     "@heroui/spinner": "^2.2.21",
-    "@heroui/system": "^2.4.20",
+    "@heroui/system": "^2.4.22",
     "@heroui/table": "^2.2.24",
     "@heroui/tabs": "^2.2.21",
-    "@heroui/theme": "^2.4.20",
+    "@heroui/theme": "^2.4.22",
     "@heroui/toast": "^2.0.14",
     "@hookform/resolvers": "^5.2.1",
     "@internationalized/date": "^3.8.2",

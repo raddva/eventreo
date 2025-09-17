@@ -1,3 +1,3 @@
 import DetailEvent from "./DetailEvent";
 
-export default DetailEvent
+export default DetailEvent;
