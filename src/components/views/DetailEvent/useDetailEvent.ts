@@ -1,10 +1,12 @@
 import eventServices from "@/services/event.service";
 import ticketServices from "@/services/ticket.service";
 import { ICart, ITicket } from "@/types/Ticket";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { defaultCart } from "./DetailEvent.constants";
+import orderServices from "@/services/order.service";
+import { addToast } from "@heroui/toast";
 
 const useDetailEvent = () => {
   const { query, isReady } = useRouter();
@@ -71,6 +73,28 @@ const useDetailEvent = () => {
     }
   };
 
+  const createOrder = async () => {
+    const { data } = await orderServices.createOrder(cart);
+    return data.data;
+  };
+
+  const { mutate: mutateCreateOrder, isPending: isPendingCreateOrder } =
+    useMutation({
+      mutationFn: createOrder,
+      onError: (err) => {
+        addToast({
+          title: "Failed",
+          description: err.message,
+          color: "danger",
+          timeout: 3000,
+        });
+      },
+      onSuccess: (res) => {
+        const transactionToken = res.payment.token;
+        (window as any).snap.pay(transactionToken);
+      },
+    });
+
   return {
     eventData,
     dataTickets,
@@ -79,6 +103,9 @@ const useDetailEvent = () => {
     dataTicketInCart,
     handleAddToCart,
     handleChangeQuantity,
+
+    mutateCreateOrder,
+    isPendingCreateOrder,
   };
 };
 
