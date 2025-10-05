@@ -3,12 +3,11 @@ import { CiMenuKebab } from "react-icons/ci";
 
 interface PropTypes {
     onPressButtonDetail: () => void;
-    onPressButtonDelete: () => void;
+    onPressButtonDelete?: () => void;
+    hideButtonDelete?: boolean;
 }
 
-const DropdownAction = (props: PropTypes) => {
-    const { onPressButtonDelete, onPressButtonDetail } = props;
-
+const DropdownAction = ({ onPressButtonDetail, onPressButtonDelete, hideButtonDelete = false }: PropTypes) => {
     return (
         <Dropdown>
             <DropdownTrigger>
@@ -16,25 +15,24 @@ const DropdownAction = (props: PropTypes) => {
                     <CiMenuKebab className="text-default-700" />
                 </Button>
             </DropdownTrigger>
-            <DropdownMenu
-                aria-label="Event Actions"
-                items={[
-                    { key: "detail", label: "Detail", onPress: onPressButtonDetail },
-                    { key: "delete", label: "Delete", onPress: onPressButtonDelete },
-                ]}
-            >
-                {(item) => (
+
+            <DropdownMenu aria-label="Event Actions">
+                <DropdownItem key="detail" onPress={() => onPressButtonDetail()}>
+                    Detail
+                </DropdownItem>
+
+                {!hideButtonDelete ? (
                     <DropdownItem
-                        key={item.key}
-                        className={item.key === "delete" ? "text-danger-500" : ""}
-                        onPress={item.onPress}
+                        key="delete"
+                        className="text-danger-500"
+                        onPress={() => onPressButtonDelete && onPressButtonDelete()}
                     >
-                        {item.label}
+                        Delete
                     </DropdownItem>
-                )}
+                ) : null}
             </DropdownMenu>
-        </Dropdown >
-    )
-}
+        </Dropdown>
+    );
+};
 
 export default DropdownAction;
