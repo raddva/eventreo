@@ -27,12 +27,12 @@ const Transaction = () => {
                 case "actions":
                     return (
                         <DropdownAction
-                            onPressButtonDetail={() => push(`/member/transaction/${transaction._id}`)}
+                            onPressButtonDetail={() => push(`/member/transaction/${transaction?.orderId}`)}
                             hideButtonDelete />
                     )
                 case "status":
                     return (
-                        <Chip color={cellValue ? "success" : "warning"} size="sm" variant="flat">
+                        <Chip color={cellValue === "COMPLETED" ? "success" : "warning"} size="sm" variant="flat" className="capitalize">
                             {cellValue as ReactNode}
                         </Chip>
                     )

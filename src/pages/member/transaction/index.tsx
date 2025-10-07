@@ -3,7 +3,7 @@ import Transaction from "@/components/views/Member/Transaction";
 
 const TransactionMemberPage = () => {
     return (
-        <DashboardLayout title="Transaction" description="Transaction Member" type="member">
+        <DashboardLayout title="Transaction" description="List of All Member Transaction" type="member">
             <Transaction />
         </DashboardLayout >
     );
