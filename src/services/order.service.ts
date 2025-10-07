@@ -9,6 +9,8 @@ const orderServices = {
   getMemberOrder: (params: string) =>
     instance.get(`${endpoint.ORDER}-history?${params}`),
   getOrderById: (id: string) => instance.get(`${endpoint.ORDER}/${id}`),
+  getOrders: (params: string) => instance.get(`${endpoint.ORDER}?${params}`),
+  deleteOrder: (id: string) => instance.delete(`${endpoint.ORDER}/${id}`),
 };
 
 export default orderServices;
