@@ -5,32 +5,20 @@ import { IoMdList } from "react-icons/io";
 
 const SIDEBAR_MEMBER = [
     {
-        key: "dashboard",
-        label: "Dashboard",
-        href: "/member/dashboard",
-        icon: <HiViewGrid />,
-    },
-    {
         key: "transaction",
         label: "Transaction",
         href: "/member/transaction",
         icon: <SlWallet />,
     },
     {
-        key: "setting",
-        label: "Setting",
-        href: "/member/setting",
+        key: "profile",
+        label: "Profile",
+        href: "/member/profile",
         icon: <PiUserCircleGear />,
     }
 ];
 
 const SIDEBAR_ADMIN = [
-    {
-        key: "dashboard",
-        label: "Dashboard",
-        href: "/admin/dashboard",
-        icon: <HiViewGrid />,
-    },
     {
         key: "event",
         label: "Event",
@@ -55,12 +43,6 @@ const SIDEBAR_ADMIN = [
         href: "/admin/transaction",
         icon: <SlWallet />,
     },
-    // {
-    //     key: "setting",
-    //     label: "Setting",
-    //     href: "/admin/setting",
-    //     icon: <PiUserCircleGear />,
-    // }
 ]
 
 export { SIDEBAR_ADMIN, SIDEBAR_MEMBER };
