@@ -5,7 +5,6 @@ import useInfoTab from "./useInfoTab";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { Spinner } from "@heroui/spinner";
-import { Select, SelectItem } from "@heroui/select";
 import { IProfile } from "@/types/Auth";
 import { Input } from "@heroui/input";
 
@@ -40,7 +39,7 @@ const InfoTab = (props: PropTypes) => {
     return (
         <Card className="w-full p-4 lg:w-1/2">
             <CardHeader className="flex-col items-center">
-                <h1 className="w-full text-xl font-bold">Event Info</h1>
+                <h1 className="w-full text-xl font-bold">Personal Information</h1>
                 <p className="text-small text-default-400 w-full">Manage your personal information</p>
             </CardHeader>
             <CardBody>
@@ -51,7 +50,7 @@ const InfoTab = (props: PropTypes) => {
                             label="Username"
                             variant="bordered"
                             value={profileData?.username}
-                            disabled
+                            readOnly
                         />
                     </Skeleton>
                     <Skeleton isLoaded={!!profileData?.email} className="rounded-lg">
@@ -60,7 +59,7 @@ const InfoTab = (props: PropTypes) => {
                             label="Email"
                             variant="bordered"
                             value={profileData?.email}
-                            disabled
+                            readOnly
                         />
                     </Skeleton>
                     <Skeleton isLoaded={!!profileData?.role} className="rounded-lg">
@@ -70,7 +69,7 @@ const InfoTab = (props: PropTypes) => {
                             variant="bordered"
                             className="capitalize"
                             value={profileData?.role}
-                            disabled
+                            readOnly
                         />
                     </Skeleton>
                     <Skeleton isLoaded={!!profileData?.fullName} className="rounded-lg">
